@@ -16,7 +16,6 @@ char * substring(char* str, int front, int back){
 	//Must handle condition of consequtive delims, delim at the end.Not done till now.
 
 	if(back==front){
-
 		return (char*)NULL;
 
 	}
