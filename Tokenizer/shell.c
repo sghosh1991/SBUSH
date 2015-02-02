@@ -49,8 +49,13 @@ int main (int argc, char **argv)
       free(cmdLine);
       continue;
     }
+
     //prints the info struct
     print_info(info);
+
+    execute(info);
+    printf("Out of execute");
+    exit(0);
     //printf("After Printing\n");
 
     //com contains the info. of the command before the first "|"
