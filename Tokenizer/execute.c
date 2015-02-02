@@ -3,33 +3,32 @@
 #include <stdlib.h>
 void execute(parseInfo * info)
 {
-    int i,*pipes,status;
-	int *p;
-pid_t pid;
-    printf("pipes=%d hi1\n",info->pipeNum);
-	printf("hi");
+    int i,j,*pipes,status;
+
+	int pid;
+    printf("pipes=%d \n",info->pipeNum);
+
     for(i=0; i<=info->pipeNum; i++)
     {
-	printf("hi");
-
-	printf("varList1=%s\n",info->CommArray[i]->VarList[1]);
-	printf("varList0=%s\n",info->CommArray[i]->VarList[0]);
-        printf("info: %s\n", info->CommArray[i]->commandName);
-        printf("varnum=%d\n",info->CommArray[i]->VarNum);
-
+    	printf("info: %s\n", info->CommArray[i]->commandName);
+    	printf("varnum=%d\n",info->CommArray[i]->VarNum);
+		for(j=0;j<info->CommArray[i]->VarNum; j++)
+			printf("varList=%s\n",info->CommArray[i]->VarList[j]);
 
     }
 
-    pipes=(int*)malloc(4);
-
+    pipes=(int*)malloc(2*info->pipeNum);
 
     if(info->pipeNum==0)
     {
-        pid=fork();
+        printf("forking");
+    	pid=fork();
+
         if(pid==0)
         {
             printf("executing %s\n",info->CommArray[0]->commandName);
             execvp(info->CommArray[0]->commandName,info->CommArray[0]->VarList);
+            printf("Unknown Command");
         }
         printf("\ndone\n");
     }
@@ -42,7 +41,7 @@ pid_t pid;
         	printf("HI%d",pid);
             if(pid==0)
             {
-               printf("in child%d",i);
+                printf("in child%d",i);
                 if(i!=0)
                 {
                     dup2(pipes[i*2],0);

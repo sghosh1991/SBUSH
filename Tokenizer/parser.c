@@ -112,18 +112,18 @@ parseInfo *parse (char *cmdLine) {
 	parseInfo *Result;
 	//char command[MAXLINE];
 	/*int com_pos = -1;
-	
+
 	if (cmdline[-1] == '\n' && cmdline[-1] == '\0')
 		return NULL;*/
-	
+
 	//Result = malloc(sizeof(parseInfo));
 	//init_info(Result,cmdLine);
 	//com_pos=0;
 /*  while (cmdline[i] != '\n' && cmdline[i] != '\0') { */
-	
+
 	//command[com_pos]='\0';
 	//parse_command(command, 0); /* &Result->CommArray[Result->pipeNum]);*/
-	
+
 	return Result;
 }
 
@@ -134,7 +134,7 @@ void print_info (parseInfo *info) {
 	
 	int i,j;
 
-	for(i=0;i<info->pipeNum;i++){
+	for(i=0;i<=info->pipeNum;i++){
 
 		printf("Command Name : %s\n",info->CommArray[i]->commandName);
 	
@@ -185,7 +185,7 @@ parseInfo* parseModified(char *cmd){
 
 	}
 
-	Result->pipeNum=tokenPipe->numOfTokens; //set the number of pipe separated commands
+	Result->pipeNum=tokenPipe->numOfTokens-1; //set the number of pipe separated commands
 
 	return Result;
 

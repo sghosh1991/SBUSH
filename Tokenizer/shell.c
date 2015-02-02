@@ -53,30 +53,9 @@ int main (int argc, char **argv)
     //prints the info struct
     print_info(info);
 
-    info=(parseInfo*)malloc(sizeof(parseInfo));
-
-	info->pipeNum =1 ;
-	info->CommArray[0]=(singleCommand*)malloc(sizeof(singleCommand));
-	strncpy(info->CommArray[0]->commandName,"ls",3);
-
-	info->CommArray[0]->VarList[0]=(char*)malloc(3);
-	info->CommArray[0]->VarList[1]=(char*)malloc(3);
-	strncpy(info->CommArray[0]->VarList[0],"ls",3);
-	strncpy(info->CommArray[0]->VarList[1],"-l",3);
-	info->CommArray[0]->VarList[2]=NULL;
-	info->CommArray[0]->VarNum=2;
-	printf("calling");
-
-	info->CommArray[1]=(singleCommand*)malloc(sizeof(singleCommand));
-	strncpy(info->CommArray[1]->commandName,"grep",5);
-	info->CommArray[1]->VarList[0]=(char*)malloc(5);
-	info->CommArray[1]->VarList[1]=(char*)malloc(6);
-	info->CommArray[1]->VarList[0]="grep";
-	info->CommArray[1]->VarList[1]="parse";
-	info->CommArray[1]->VarList[2]=NULL;
-	info->CommArray[1]->VarNum=2;
-	printf("calling");
-	execute(info);
+    execute(info);
+    printf("Out of execute");
+    exit(0);
     //printf("After Printing\n");
 
     //com contains the info. of the command before the first "|"
