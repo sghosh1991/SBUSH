@@ -66,7 +66,7 @@ parseInfo* parseModified(char *cmd){
 
 	}
 
-	Result->pipeNum=tokenPipe->numOfTokens; //set the number of pipe separated commands
+	Result->pipeNum=tokenPipe->numOfTokens-1; //set the number of pipe separated commands
 
 	return Result;
 }
