@@ -18,6 +18,7 @@ int main (int argc, char **argv)
     
 
 	 //cmdLine = "Santosh 1 2 3 | ls -l";
+
 	  printf("Santosh> ");
     gets(cmdLine);
 
@@ -40,9 +41,6 @@ int main (int argc, char **argv)
 		exit(0);
 	}
 
-
-
-
     //calls the parser
     info = parseModified(cmdLine);
     if (info == NULL){
@@ -54,7 +52,7 @@ int main (int argc, char **argv)
     print_info(info);
 
     execute(info);
-    printf("Out of execute");
+    printf("Out of execute\n");
     exit(0);
     //printf("After Printing\n");
 

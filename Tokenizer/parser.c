@@ -15,7 +15,7 @@ void print_info (parseInfo *info) {
 	
 	int i,j;
 
-	for(i=0;i<info->pipeNum;i++){
+	for(i=0;i<=info->pipeNum;i++){
 
 		printf("Command Name : %s\n",info->CommArray[i]->commandName);
 	
@@ -61,6 +61,7 @@ parseInfo* parseModified(char *cmd){
 		for(j=0;j<tokenSpace->numOfTokens;j++){
 			sc->VarList[j]=tokenSpace->tokenArr[j];
 		}
+		sc->VarList[j]=NULL;
 
 		Result->CommArray[i]=sc;
 

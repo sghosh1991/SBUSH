@@ -3,7 +3,7 @@
 #include <stdlib.h>
 void execute(parseInfo * info)
 {
-    int i,j,*pipes,status;
+	int i,j,*pipes,status;
 
 	int pid;
     printf("pipes=%d \n",info->pipeNum);
@@ -17,7 +17,6 @@ void execute(parseInfo * info)
 
     }
 
-    pipes=(int*)malloc(2*info->pipeNum);
 
     if(info->pipeNum==0)
     {
@@ -34,43 +33,55 @@ void execute(parseInfo * info)
     }
     else
     {
-        printf("HI");
+        pipes=(int*)malloc(2*info->pipeNum);
+        for(i=0; i<info->pipeNum; i++)
+        {
+        	pipe(pipes+i*2);
+        }
+        printf("Multiple Commands");
         for(i=0; i<=info->pipeNum;i++)
         {
             pid=fork();
-        	printf("HI%d",pid);
+        	printf("pid=%d",pid);
             if(pid==0)
             {
                 printf("in child%d",i);
+
                 if(i!=0)
                 {
-                    dup2(pipes[i*2],0);
+                    dup2(pipes[i*2-2],0);
                 }
                 if(i!=info->pipeNum)
                 {
-                    dup2(pipes[i*2+1,1]);
+                    dup2(pipes[i*2+1],1);
                 }
 
-                for(i=0;i<=info->pipeNum;i++)
+                for(j=0;j<info->pipeNum;j++)
                 {
-                    close(pipes[i*2]);
-                    close(pipes[i*2+1]);
+                    close(pipes[j*2]);
+                    close(pipes[j*2+1]);
                 }
+                printf("debug:%d\n",i);
+                printf("debug:%s ", info->CommArray[i]->commandName);
                 execvp(info->CommArray[i]->commandName,info->CommArray[i]->VarList);
+                //char *cat_args[] = {"ls", "-l", NULL};
+                //execvp(*cat_args, cat_args);
             }
 
         }
-         for(i=0;i<=info->pipeNum;i++)
-        {
-              close(pipes[i*2]);
-              close(pipes[i*2+1]);
-		printf("closed");
-        }
+        printf("\nin multiple's parent\n");
+        for(i=0;i<=info->pipeNum;i++)
+		 {
+			  close(pipes[i*2]);
+			  close(pipes[i*2+1]);
+			  printf("closed");
+		 }
 
-   }
-        printf("\nin parent\n");
-        for (i = 0; i < info->pipeNum; i++)
-                wait(&status);
+    }
+	printf("\nin singles's parent\n");
+	for (i = 0; i <= info->pipeNum; i++)
+		printf("child returned:%d\n",wait(&status));
+
 
 
 
