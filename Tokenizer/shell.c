@@ -20,7 +20,7 @@ int main (int argc, char **argv)
 	 //cmdLine = "Santosh 1 2 3 | ls -l";
 
 	  printf("Santosh> ");
-    gets(cmdLine);
+	  gets(cmdLine);
 
 
     if (cmdLine == NULL) {
@@ -35,10 +35,6 @@ int main (int argc, char **argv)
 		printf("No command entered\n");
 		continue;
 		
-	}
-
-	if(strcmp(cmdLine,"exit") == 0){
-		exit(0);
 	}
 
     //calls the parser
