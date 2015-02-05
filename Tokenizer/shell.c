@@ -45,7 +45,7 @@ int main (int argc, char *argv[])
 
 		if(!(cmdLine && * cmdLine)){
 			printf("No command entered\n");
-			continue;
+				continue;
 
 		}
 
@@ -60,32 +60,10 @@ int main (int argc, char *argv[])
 		print_info(info);
 
 		execute_cmd(info);
-		printf("Out of execute\n");
-		exit(0);
-
-		//printf("After Printing\n");
-
-		//com contains the info. of the command before the first "|"
-	/*
-		com=&info->CommArray[0];
-		if ((com == NULL)  || (com->command == NULL)) {
-		  free_info(info);
-		  free(cmdLine);
-		  continue;
-		}
-	*/
-		//com->command tells the command name of com
-	/*
-		if (isBuiltInCommand(com->command) == EXIT){
-		  exit(1);
-		}
-	*/
-		//insert your code here.
-
-		//free_info(info);
-		//free(cmdLine);
-
-	  }/* while(1) */
-
-	return 0;
+		static int loop=0;
+		printf("Out of execute%d\n",loop++);
+		//exit(0);
+  }/* while(1) */
+  printf("BYE BYE");
+  return 0;
 }

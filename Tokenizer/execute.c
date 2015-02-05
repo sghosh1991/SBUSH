@@ -105,19 +105,18 @@ void execute_cmd(parseInfo * info)
             }
         }
         printf("\nin multiple's parent\n");
-        for(i=0;i<=info->pipeNum;i++)
+
+        for(i=0;i<info->pipeNum;i++)
 		{
 			  close(pipes[i*2]);
 			  close(pipes[i*2+1]);
 			  printf("closed");
 		}
 
+
     }
 	printf("\nin singles's parent\n");
-	for (i = 0; i <= info->pipeNum; i++)
-		printf("child returned:%d\n",wait(&status));
-
-
-
+    for (i = 0; i <= info->pipeNum; i++)
+        	printf("child returned:%d\n",wait(&status));
 
 }
