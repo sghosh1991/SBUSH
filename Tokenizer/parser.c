@@ -6,7 +6,6 @@
 #include "stringTokenizer.h"
 #include "parser.h"
 
-#define MAXLINE 81
 
 void print_info (parseInfo *info) {
 	//printf("print_info: printing info about parseInfo struct\n");
@@ -70,4 +69,21 @@ parseInfo* parseModified(char *cmd){
 	Result->pipeNum=tokenPipe->numOfTokens-1; //set the number of pipe separated commands
 
 	return Result;
+}
+
+int read_line(int fd, char* buf)
+{
+	char *byte=buf;
+	int ret = read(fd,byte,1);
+	if (ret == -1)
+		return -1;
+
+	while(*byte++!='\n')
+	{
+		ret = read(fd,byte,1);
+		if (ret == -1)
+			return -1;
+	}
+	*(byte-1)='\0';
+	return 1;
 }

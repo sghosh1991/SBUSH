@@ -2,6 +2,7 @@
 #define PIPE_MAX_NUM 10
 #define FILE_MAX_SIZE 40
 #define MAX_CMD_LEN 10
+#define MAXLINE 81
 
 typedef struct{
   char *commandName;
@@ -26,4 +27,4 @@ parseInfo *parse(char *);
 void free_info(parseInfo *);
 void print_info(parseInfo *);
 singleCommand* parse_command(char *);
-
+int read_line(int fd, char* buf);

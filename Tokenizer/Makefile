@@ -7,7 +7,7 @@ CC=gcc
 CFLAGS=-g -c
 all: hello
 
-hello: shell.o parser.o stringTokenizer.o
+hello: shell.o parser.o stringTokenizer.o execute.o
 	$(CC) shell.o parser.o stringTokenizer.o -lreadline -o hello
 
 shell.o: shell.c
@@ -18,6 +18,9 @@ parser.o: parser.c
 
 stringTokenizer.o: stringTokenizer.c
 	$(CC) $(CFLAGS) stringTokenizer.c
+
+execute.o: execute.c
+	$(CC) $(CFLAGS) execute.c
 
 clean:
 	rm -rf *o hello

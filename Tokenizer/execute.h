@@ -1,1 +1,1 @@
-void execute(parseInfo *info);
+void execute_cmd(parseInfo *info);

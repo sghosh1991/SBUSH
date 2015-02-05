@@ -1,12 +1,30 @@
 #include "parser.h"
 #include "stdio.h"
 #include <stdlib.h>
-void execute(parseInfo * info)
+#include <errno.h>
+
+char * myerror(int err)
+{
+	switch(err)
+	{
+		case 2:
+			return "Command Not Found";
+
+		case 13:
+			return "Permission denied.";
+	}
+	return "error occured.";
+
+}
+
+
+void execute_cmd(parseInfo * info)
 {
 	int i,j,*pipes,status;
 
 	int pid;
     printf("pipes=%d \n",info->pipeNum);
+
 
     for(i=0; i<=info->pipeNum; i++)
     {
@@ -17,23 +35,32 @@ void execute(parseInfo * info)
 
     }
 
-
     if(info->pipeNum==0)
     {
         printf("forking");
     	pid=fork();
 
+    	if (pid < 0)
+		{
+			printf("fork error:%d\n", errno);
+			exit(EXIT_FAILURE);
+		}
         if(pid==0)
         {
             printf("executing %s\n",info->CommArray[0]->commandName);
-            execvp(info->CommArray[0]->commandName,info->CommArray[0]->VarList);
-            printf("Unknown Command");
+            char* envp[]={NULL};
+            int ret = execve(info->CommArray[0]->commandName,info->CommArray[0]->VarList,envp);
+            if(ret == -1)
+            {
+            	printf("%s",myerror(errno));
+            	exit(EXIT_FAILURE);
+            }
         }
         printf("\ndone\n");
     }
     else
     {
-        pipes=(int*)malloc(2*info->pipeNum);
+        pipes=(int*)malloc(2*info->pipeNum*sizeof(int));
         for(i=0; i<info->pipeNum; i++)
         {
         	pipe(pipes+i*2);
@@ -42,6 +69,11 @@ void execute(parseInfo * info)
         for(i=0; i<=info->pipeNum;i++)
         {
             pid=fork();
+            if (pid < 0)
+			{
+				printf("fork error:%d\n", errno);
+				exit(EXIT_FAILURE);
+			}
         	printf("pid=%d",pid);
             if(pid==0)
             {
@@ -63,19 +95,22 @@ void execute(parseInfo * info)
                 }
                 printf("debug:%d\n",i);
                 printf("debug:%s ", info->CommArray[i]->commandName);
-                execvp(info->CommArray[i]->commandName,info->CommArray[i]->VarList);
-                //char *cat_args[] = {"ls", "-l", NULL};
-                //execvp(*cat_args, cat_args);
+                char* envp[]={NULL};
+                int ret=execve(info->CommArray[i]->commandName,info->CommArray[i]->VarList,envp);
+                if(ret == -1)
+				{
+					printf("%s",myerror(errno));
+					exit(EXIT_FAILURE);
+				}
             }
-
         }
         printf("\nin multiple's parent\n");
         for(i=0;i<=info->pipeNum;i++)
-		 {
+		{
 			  close(pipes[i*2]);
 			  close(pipes[i*2+1]);
 			  printf("closed");
-		 }
+		}
 
     }
 	printf("\nin singles's parent\n");
