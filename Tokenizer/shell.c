@@ -45,7 +45,6 @@ int main (int argc, char *argv[])
 		  continue;
 		}
 
-
 		if(!(*cmdLine)){
 			printf("No command entered\n");
 				continue;

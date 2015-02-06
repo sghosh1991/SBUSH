@@ -63,7 +63,8 @@ void execute_cmd(parseInfo * info)
         pipes=(int*)malloc(2*info->pipeNum*sizeof(int));
         for(i=0; i<info->pipeNum; i++)
         {
-        	pipe(pipes+i*2);
+        	if(pipe(pipes+i*2) == -1)
+        		printf("Pipe creation error:%d",errno);
         }
         printf("Multiple Commands");
         for(i=0; i<=info->pipeNum;i++)
@@ -81,11 +82,14 @@ void execute_cmd(parseInfo * info)
 
                 if(i!=0)
                 {
-                    dup2(pipes[i*2-2],0);
+                    if(dup2(pipes[i*2-2],0)==-1)
+                    	printf("Dup2 error:%d",errno);
                 }
                 if(i!=info->pipeNum)
                 {
-                    dup2(pipes[i*2+1],1);
+
+                    if(dup2(pipes[i*2+1],1)==-1)
+                    	printf("Dup2 error:%d",errno);
                 }
 
                 for(j=0;j<info->pipeNum;j++)
