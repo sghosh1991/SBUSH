@@ -9,7 +9,7 @@
 int main (int argc, char *argv[])
 {
   char cmdLine[MAXLINE];
-  int fd;
+  int fd,ret;
   parseInfo *info; //info stores all the information returned by parser.
   struct commandType *com; //com stores command name and Arg list for one command.
   if(argv[1]!=NULL)
@@ -31,22 +31,24 @@ int main (int argc, char *argv[])
 	  else
 	  {
 		  printf("here");
-		  read_line(fd, cmdLine);
+		  ret=read_line(fd, cmdLine);
 		  while (cmdLine[0] == '#')
-			  read_line(fd,cmdLine);
+			  ret=read_line(fd,cmdLine);
+		  if(ret == -1)
+			  break;
 	  }
 
 	  printf("entered: %s",cmdLine);
 
 		if (cmdLine == NULL) {
-		  fprintf(stderr, "Unable to read command\n");
+		  printf("Unable to read last command\n");
 		  continue;
 		}
 
-		if(!(cmdLine && * cmdLine)){
+
+		if(!(*cmdLine)){
 			printf("No command entered\n");
 				continue;
-
 		}
 
 		//calls the parser

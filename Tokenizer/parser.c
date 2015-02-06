@@ -75,12 +75,16 @@ int read_line(int fd, char* buf)
 {
 	char *byte=buf;
 	int ret = read(fd,byte,1);
-	if (ret == -1)
+	if(ret == 0)
+	{
+		byte = '\0';
 		return -1;
-
+	}
+	printf("read: %c ",*byte);
 	while(*byte++!='\n')
 	{
 		ret = read(fd,byte,1);
+		printf("read: %c ",*byte);
 		if (ret == -1)
 			return -1;
 	}
